@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1148</width>
+    <height>684</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>977</x>
+      <y>40</y>
+      <width>72</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Process</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="text_input">
+    <property name="geometry">
+     <rect>
+      <x>447</x>
+      <y>40</y>
+      <width>531</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="table">
+    <property name="geometry">
+     <rect>
+      <x>38</x>
+      <y>110</y>
+      <width>361</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Index</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Token</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Pos Tags</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>20</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nhập đầu vào:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="index1_input">
+    <property name="geometry">
+     <rect>
+      <x>446</x>
+      <y>115</y>
+      <width>131</width>
+      <height>39</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>446</x>
+      <y>95</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nhập khoảng index1 (0-2, ...):</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>95</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nhập khoảng index2 (0-2, ...):</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="index2_input">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>115</y>
+      <width>121</width>
+      <height>39</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="token1">
+    <property name="geometry">
+     <rect>
+      <x>446</x>
+      <y>155</y>
+      <width>181</width>
+      <height>86</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="token2">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>155</y>
+      <width>181</width>
+      <height>86</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="type1">
+    <property name="geometry">
+     <rect>
+      <x>446</x>
+      <y>245</y>
+      <width>181</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>ENTITY</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="type2">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>245</y>
+      <width>181</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>ENTITY</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ATTRIBUTE</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="type_relation">
+    <property name="geometry">
+     <rect>
+      <x>677</x>
+      <y>165</y>
+      <width>211</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>relation with</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>attribute of</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QTextEdit" name="output">
+    <property name="geometry">
+     <rect>
+      <x>447</x>
+      <y>285</y>
+      <width>661</width>
+      <height>279</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="finish_button">
+    <property name="geometry">
+     <rect>
+      <x>677</x>
+      <y>215</y>
+      <width>211</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Finish</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="get_index1">
+    <property name="geometry">
+     <rect>
+      <x>576</x>
+      <y>115</y>
+      <width>61</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="get_index2">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>115</y>
+      <width>61</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="link_data">
+    <property name="geometry">
+     <rect>
+      <x>38</x>
+      <y>40</y>
+      <width>301</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>48</x>
+      <y>19</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Link file data (.json):</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save_button">
+    <property name="geometry">
+     <rect>
+      <x>997</x>
+      <y>565</y>
+      <width>113</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="del_button">
+    <property name="geometry">
+     <rect>
+      <x>1047</x>
+      <y>40</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="load_data_file">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>40</y>
+      <width>71</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="delete_all_button">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>570</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete All</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1148</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuLabeling_Data">
+    <property name="title">
+     <string>Labeling Data</string>
+    </property>
+    <addaction name="separator"/>
+   </widget>
+   <addaction name="menuLabeling_Data"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
