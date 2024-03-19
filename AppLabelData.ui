@@ -167,12 +167,12 @@
     </property>
     <item>
      <property name="text">
-      <string>ENTITY</string>
+      <string>ATTRIBUTE</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>ATTRIBUTE</string>
+      <string>ENTITY</string>
      </property>
     </item>
    </widget>
@@ -187,12 +187,12 @@
     </property>
     <item>
      <property name="text">
-      <string>relation with</string>
+      <string>attribute of</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>attribute of</string>
+      <string>relation with</string>
      </property>
     </item>
    </widget>

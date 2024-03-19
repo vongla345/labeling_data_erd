@@ -50,6 +50,7 @@ class MyGUI(QMainWindow):
         
         #View tokens and pos tags
         self.table = self.findChild(QTableWidget, 'table')
+        self.table.verticalHeader().setVisible(False)
         self.table.itemClicked.connect(self.ent_att_relaion_clicked)
 
         #finish button
@@ -84,7 +85,7 @@ class MyGUI(QMainWindow):
                 try:
                     with open(link_file, 'w') as file:
                         self.dataset = []
-                        file.write(json.dumps(self.dataset))
+                        file.write(json.dumps(self.dataset,indent=2))
                         # Initialize the file
                         QMessageBox.information(self, "New File", "File has been create at " + link_file)
                 except Exception as e:
@@ -130,6 +131,9 @@ class MyGUI(QMainWindow):
         if self.data['tokens'] == []:
             QMessageBox.critical(self, "Error", "Please input text first")
             return
+        if range_index[1] > len(self.data['tokens']) or range_index[0] < 0:
+            QMessageBox.critical(self, "Error", "Index out of range")
+            return
         for i in range(range_index[0], range_index[1]):
             token1_string += self.data['tokens'][i] + " "
         self.token1.setText(token1_string)
@@ -146,6 +150,9 @@ class MyGUI(QMainWindow):
         token2_string = ""
         if self.data['tokens'] == []:
             QMessageBox.critical(self, "Error", "Please input text first")
+            return
+        if range_index[1] > len(self.data['tokens']) or range_index[0] < 0:
+            QMessageBox.critical(self, "Error", "Index out of range")
             return
         for i in range(range_index[0], range_index[1]):
             token2_string += self.data['tokens'][i] + " "
@@ -193,16 +200,26 @@ class MyGUI(QMainWindow):
         self.dataset.append(self.data)
         try:
             with open(self.link_data.text(), 'w') as file:
-                file.write(json.dumps(self.dataset))
+                file.write(json.dumps(self.dataset, indent=2))
             QMessageBox.information(self, "Save", "Data has been saved ")
         except Exception as e:
             QMessageBox.critical(self, "Error", "Could not save file: " + str(e))
-        self.data = {}
+            return 
         self.data = {}
         self.data['tokens'] = []
         self.data['spo_list'] = []
         self.data['spo_details'] = []
         self.data['pos_tags'] = []
+        self.output.setText("")
+        self.table.setRowCount(0)
+        self.text_input.setText("")
+        self.token1.setText("")
+        self.token2.setText("")
+        self.index1_input.setText("")
+        self.index2_input.setText("")
+        self.type1.setCurrentIndex(0)
+        self.type2.setCurrentIndex(0)
+        self.type_relation.setCurrentIndex(0)
     def delete_all_click(self):
         self.output.setText("")
         self.table.setRowCount(0)
@@ -214,7 +231,6 @@ class MyGUI(QMainWindow):
         self.type1.setCurrentIndex(0)
         self.type2.setCurrentIndex(0)
         self.type_relation.setCurrentIndex(0)
-        self.link_data.setText("")
 def main():
     app = QApplication([])
     window = MyGUI()
