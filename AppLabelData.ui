@@ -122,6 +122,9 @@
     </property>
    </widget>
    <widget class="QTextEdit" name="token1">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>446</x>
@@ -132,6 +135,9 @@
     </property>
    </widget>
    <widget class="QTextEdit" name="token2">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>930</x>
@@ -216,7 +222,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Finish</string>
+     <string>Add Relation</string>
     </property>
    </widget>
    <widget class="QPushButton" name="get_index1">

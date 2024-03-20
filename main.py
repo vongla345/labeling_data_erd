@@ -197,6 +197,9 @@ class MyGUI(QMainWindow):
                     self.type_relation.model().item(i).setEnabled(True)
                     self.type_relation.setCurrentIndex(i)
     def save_click(self):
+        if self.data['spo_list'] == [] or self.data['spo_details'] == []:
+            QMessageBox.critical(self, "Error", "Please add relation first")
+            return
         self.dataset.append(self.data)
         try:
             with open(self.link_data.text(), 'w') as file:
@@ -210,6 +213,8 @@ class MyGUI(QMainWindow):
         self.data['spo_list'] = []
         self.data['spo_details'] = []
         self.data['pos_tags'] = []
+        self.spo_list = []
+        self.spo_details = []
         self.output.setText("")
         self.table.setRowCount(0)
         self.text_input.setText("")
@@ -231,6 +236,9 @@ class MyGUI(QMainWindow):
         self.type1.setCurrentIndex(0)
         self.type2.setCurrentIndex(0)
         self.type_relation.setCurrentIndex(0)
+        self.spo_list = []
+        self.spo_details = []
+        self.data = {}
 def main():
     app = QApplication([])
     window = MyGUI()
