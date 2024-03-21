@@ -1,9 +1,13 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 import sys
+import os
 import json
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
+
+if getattr(sys, 'frozen', False):
+    os.chdir(sys._MEIPASS)
 
 class MyGUI(QMainWindow):
     def __init__(self):
@@ -51,13 +55,16 @@ class MyGUI(QMainWindow):
         #View tokens and pos tags
         self.table = self.findChild(QTableWidget, 'table')
         self.table.verticalHeader().setVisible(False)
-        self.table.itemClicked.connect(self.ent_att_relaion_clicked)
+        #self.table.itemClicked.connect(self.ent_att_relaion_clicked_index_1)
 
         #finish button
         self.type_relation = self.findChild(QComboBox, 'type_relation')
         
         self.finish_button = self.findChild(QPushButton, 'finish_button')
         self.finish_button.clicked.connect(self.finish_click)
+        
+        self.remove_previous_button = self.findChild(QPushButton, 'remove_previous_relation')
+        self.remove_previous_button.clicked.connect(self.remove_previous_click)
         
         self.output = self.findChild(QTextEdit, 'output')
         
@@ -114,9 +121,33 @@ class MyGUI(QMainWindow):
         self.token2.setText("")
     def del_click(self):
         self.text_input.setText("")
-    def ent_att_relaion_clicked(self, item):
-        row = item.row()
-        self.record = [self.table.item(row, col).text() for col in range(self.table.columnCount())]
+    def getIndex1(self):
+        self.index1_input.setText("")
+        selected_rows = sorted(list(set([item.row() for item in self.table.selectedItems()])))
+        if not all(selected_rows[i] + 1 == selected_rows[i + 1] for i in range(len(selected_rows) - 1)):
+            QMessageBox.critical(self, "Error", "The selected rows must be continuous.")
+            return
+        self.records = [[self.table.item(row, col).text() for col in range(self.table.columnCount())] for row in selected_rows]
+        self.index1_input.setText(f"{selected_rows[0]} {selected_rows[-1]}")
+        token1_string = ""
+        for i in selected_rows:
+            token1_string += self.data['tokens'][i] + " "
+        token1_string = token1_string.rstrip()  # Remove trailing spaces
+        self.token1.setText(token1_string)
+    def getIndex2(self):
+        self.index2_input.setText("")
+        selected_rows = sorted(list(set([item.row() for item in self.table.selectedItems()])))
+        if not all(selected_rows[i] + 1 == selected_rows[i + 1] for i in range(len(selected_rows) - 1)):
+            QMessageBox.critical(self, "Error", "The selected rows must be continuous.")
+            return
+        self.records = [[self.table.item(row, col).text() for col in range(self.table.columnCount())] for row in selected_rows]
+        self.index2_input.setText(f"{selected_rows[0]} {selected_rows[-1]}")
+        token2_string = ""
+        for i in selected_rows:
+            token2_string += self.data['tokens'][i] + " "
+        token2_string = token2_string.rstrip()  # Remove trailing spaces
+        self.token2.setText(token2_string)
+    '''
     def getIndex1(self):
         if self.index1_input.text() == "":
             QMessageBox.critical(self, "Error", "Please input index for entity 1")
@@ -157,6 +188,7 @@ class MyGUI(QMainWindow):
         for i in range(range_index[0], range_index[1]):
             token2_string += self.data['tokens'][i] + " "
         self.token2.setText(token2_string)
+    '''
     def finish_click(self):
         type1 = self.type1.currentText()
         type2 = self.type2.currentText()
@@ -166,21 +198,34 @@ class MyGUI(QMainWindow):
         if token1 == "" or token2 == "":
             QMessageBox.critical(self, "Error", "Please input token for both entities")
             return
-        range_index1 = self.index1_input.text().split('-')
-        range_index1 = [int(range_index1[0]), int(range_index1[1])]
-        range_index2 = self.index2_input.text().split('-')
-        range_index2 = [int(range_index2[0]), int(range_index2[1])]
-        spo_list =[ token1, relation, token2]
-        spo_details = [range_index1[0], range_index1[1], type1, relation, range_index2[0], range_index2[1], type2]
-        if spo_list in self.data['spo_list']:
+        range_index1 = self.index1_input.text().split(' ')
+        range_index1 = [int(range_index1[0]), int(range_index1[1]) + 1]
+        range_index2 = self.index2_input.text().split(' ')
+        range_index2 = [int(range_index2[0]), int(range_index2[1]) + 1]
+        self.spo_list =[ token1, relation, token2]
+        self.spo_details = [range_index1[0], range_index1[1], type1, relation, range_index2[0], range_index2[1], type2]
+        if self.spo_list in self.data['spo_list']:
             QMessageBox.critical(self, "Error", "This spo list already exists")
             return
-        if spo_details in self.data['spo_details']:
+        if self.spo_details in self.data['spo_details']:
             QMessageBox.critical(self, "Error", "This spo details already exists")
             return
-        self.data['spo_list'].append(spo_list)
-        self.data['spo_details'].append(spo_details)
+        self.data['spo_list'].append(self.spo_list)
+        self.data['spo_details'].append(self.spo_details)
         self.output.setText(self.data.__str__())
+    def remove_previous_click(self):
+        if self.spo_list == [] or self.spo_details == []:
+            QMessageBox.critical(self, "Error", "There is no relation to remove")
+            return
+        self.data['spo_list'].remove(self.spo_list)
+        self.data['spo_details'].remove(self.spo_details)
+        self.output.setText(self.data.__str__())
+        if len(self.data['spo_list']) == 0:
+            self.spo_list = []
+            self.spo_details = []
+        else:
+            self.spo_list = self.data['spo_list'][-1]
+            self.spo_details = self.data['spo_details'][-1]
     def combo2_changed(self,index):
         if self.type2.itemText(index) == "ENTITY":  # Replace "Your Option" with the option that should enable a certain option in the second combo box
             for i in range(self.type_relation.count()):
@@ -236,10 +281,24 @@ class MyGUI(QMainWindow):
         self.type1.setCurrentIndex(0)
         self.type2.setCurrentIndex(0)
         self.type_relation.setCurrentIndex(0)
+        self.data = {}
+        self.data['tokens'] = []
+        self.data['spo_list'] = []
+        self.data['spo_details'] = []
+        self.data['pos_tags'] = []
         self.spo_list = []
         self.spo_details = []
-        self.data = {}
+        self.record = []
 def main():
+    if getattr(sys, 'frozen', False):
+    # The application is running as a bundle (packaged by PyInstaller)
+        bundle_dir = sys._MEIPASS
+    else:
+    # The application is running in a normal Python environment
+        bundle_dir = os.path.dirname(os.path.abspath(__file__))
+
+# The path to the file in the bundle
+    path_to_file = os.path.join(bundle_dir, 'AppLabelData.ui')
     app = QApplication([])
     window = MyGUI()
     sys.exit(app.exec_())
